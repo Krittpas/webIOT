@@ -36,6 +36,8 @@
     --ease: cubic-bezier(.22,1,.36,1);
     --ig:#E1306C;
     --ig-soft: rgba(225,48,108,.20);
+    --drive:#4285F4;
+    --drive-soft: rgba(66,133,244,.20);
   }
 
   *{ box-sizing:border-box; }
@@ -96,9 +98,10 @@
     transition:transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease);
     opacity:0; animation:rise .6s var(--ease) forwards;
   }
-  .card--chat{ animation-delay:.46s; }
-  .card--classroom{ animation-delay:.56s; }
-  .card--instagram{ animation-delay:.66s; }
+  .card--drive{ animation-delay:.46s; }
+  .card--chat{ animation-delay:.56s; }
+  .card--classroom{ animation-delay:.66s; }
+  .card--instagram{ animation-delay:.76s; }
 
   .card:hover, .card:focus-visible{ transform:translateY(-3px); }
   .card--chat:hover, .card--chat:focus-visible{ border-color:rgba(255,122,89,.45); box-shadow:0 16px 34px -16px var(--coral-soft); }
@@ -114,6 +117,9 @@
   .card--instagram .card-icon{ background:var(--ig-soft); color:var(--ig); }
   .card--instagram:hover, .card--instagram:focus-visible{ border-color:rgba(225,48,108,.45); box-shadow:0 16px 34px -16px var(--ig-soft); }
   .card--instagram .card-eyebrow{ color:var(--ig); }
+  .card--drive .card-icon{ background:var(--drive-soft); color:var(--drive); }
+  .card--drive:hover, .card--drive:focus-visible{ border-color:rgba(66,133,244,.45); box-shadow:0 16px 34px -16px var(--drive-soft); }
+  .card--drive .card-eyebrow{ color:var(--drive); }
   .card-icon svg{ width:22px; height:22px; overflow:visible; }
 
   .pulse-dot{ fill:var(--coral); }
@@ -168,6 +174,28 @@
     <p class="subtitle">เลือกช่องทางที่ต้องการเข้าร่วม</p>
 
     <div class="cards">
+      <a class="card card--drive"
+         href="https://drive.google.com/file/d/1aG0v6yfW4zSAZ6MClzDyGfxNpMYRd3bV/view?usp=sharing"
+         target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">
+        <span class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3.5 17.5L8 9l4.5 7.5H3.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M14.5 9h5L16 17.5H11L14.5 9z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M8 9h8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="card-body">
+          <span class="card-eyebrow">ไฟล์เอกสาร</span>
+          <span class="card-title">เปิดไฟล์ใน Google Drive</span>
+          <span class="card-desc">เข้าถึงเอกสารและไฟล์ที่แชร์</span>
+        </span>
+        <span class="card-arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </a>
+
       <a class="card card--chat"
          href="https://line.me/R/ti/g/eZsDmCDk-w"
          target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">
