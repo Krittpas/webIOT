@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Security: no scripts can run on this page at all, and only Google Fonts is allowed as an external resource -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+<!-- Security: only our own app.js may run, and the only network destination allowed is the Supabase project (for the admin ranking panel) -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://uivplwgurceicvcysiua.supabase.co; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#0E1320">
 
@@ -151,6 +151,84 @@
   }
 
   @media (min-width:560px){ .title{ font-size:2.2rem; } }
+
+  /* ===== ADMIN: gate + panel ===== */
+  [hidden]{ display:none !important; }
+
+  .btn{
+    font-family:'Bai Jamjuree', sans-serif; font-weight:600; font-size:.9rem;
+    cursor:pointer; border:1px solid var(--hairline); border-radius:12px;
+    padding:10px 16px; color:var(--paper); background:var(--glass);
+    transition:transform .2s var(--ease), border-color .2s var(--ease), background .2s var(--ease);
+  }
+  .btn:hover{ transform:translateY(-1px); border-color:rgba(255,255,255,.22); }
+  .btn--primary{ background:var(--coral); color:#1a1208; border-color:transparent; }
+  .btn--add{ background:var(--teal-soft); color:var(--teal); border-color:rgba(88,214,194,.4); }
+  .btn--sub{ background:var(--coral-soft); color:var(--coral); border-color:rgba(255,122,89,.4); }
+  .btn:focus-visible{ outline:2px solid var(--paper); outline-offset:2px; }
+
+  /* Login gate */
+  .admin-gate{
+    position:fixed; inset:0; z-index:50; display:flex; align-items:center; justify-content:center;
+    padding:24px; background:rgba(8,11,18,.72); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+  }
+  .admin-gate__box{
+    width:100%; max-width:340px; display:flex; flex-direction:column; gap:14px; text-align:left;
+    padding:24px; border-radius:20px; border:1px solid var(--hairline);
+    background:var(--ink-900); box-shadow:0 24px 60px -20px rgba(0,0,0,.8);
+  }
+  .admin-gate__label{ font-family:'Bai Jamjuree', sans-serif; font-weight:600; font-size:.95rem; color:var(--paper); }
+  .admin-gate__input, .ctrl__input{
+    font-family:'IBM Plex Sans Thai', sans-serif; font-size:1rem; color:var(--paper);
+    background:var(--ink-950); border:1px solid var(--hairline); border-radius:12px; padding:11px 14px; width:100%;
+  }
+  .admin-gate__input:focus, .ctrl__input:focus{ outline:none; border-color:var(--coral); }
+  .admin-gate__error{ margin:0; color:var(--coral); font-size:.85rem; }
+  .admin-gate__actions{ display:flex; gap:10px; }
+  .admin-gate__actions .btn{ flex:1; }
+
+  /* Admin panel */
+  .admin-panel{
+    position:fixed; inset:0; z-index:40; overflow-y:auto;
+    padding:28px 20px 56px;
+    background:
+      radial-gradient(circle at 20% -10%, var(--ink-900), transparent 60%),
+      radial-gradient(circle at 100% 110%, #18233a, transparent 55%),
+      var(--ink-950);
+  }
+  .admin-panel__inner{ width:100%; max-width:560px; margin:0 auto; }
+  .admin-panel__head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
+  .admin-panel__title{ font-family:'Bai Jamjuree', sans-serif; font-weight:700; font-size:1.4rem; margin:0; }
+  .admin-status{ min-height:20px; color:var(--muted); font-size:.85rem; margin-bottom:18px; }
+  .admin-status.is-error{ color:var(--coral); }
+
+  .panel-card{
+    padding:18px 16px; border-radius:20px; border:1px solid var(--hairline);
+    background:var(--glass); margin-bottom:18px;
+  }
+  .panel-card__title{ font-family:'Bai Jamjuree', sans-serif; font-weight:600; font-size:.78rem; letter-spacing:.06em; color:var(--muted); text-transform:uppercase; margin:0 0 14px; }
+
+  /* Chart (vertical bars) */
+  .chart{ display:flex; align-items:flex-end; justify-content:space-around; gap:12px; height:240px; padding-top:6px; }
+  .bar-col{ flex:1 1 0; height:100%; display:flex; flex-direction:column; align-items:center; min-width:0; }
+  .bar-val{ font-family:'Bai Jamjuree', sans-serif; font-weight:700; font-size:1.05rem; margin-bottom:6px; }
+  .bar-track{
+    flex:1 1 auto; width:100%; max-width:64px; display:flex; align-items:flex-end;
+    border-radius:12px; background:rgba(255,255,255,.06); overflow:hidden;
+  }
+  .bar-fill{ width:100%; height:0; border-radius:12px 12px 0 0; transition:height .5s var(--ease); }
+  .bar-name{ margin-top:10px; font-weight:600; font-size:.9rem; text-align:center; line-height:1.2; }
+
+  /* Controls */
+  .ctrl-row{ display:grid; grid-template-columns:1fr auto auto auto; align-items:center; gap:8px; padding:10px 0; border-top:1px solid var(--hairline); }
+  .ctrl-row:first-child{ border-top:none; }
+  .ctrl-name{ font-weight:600; font-size:.95rem; min-width:0; }
+  .ctrl__input{ width:84px; padding:8px 10px; text-align:center; }
+
+  @media (max-width:460px){
+    .ctrl-row{ grid-template-columns:1fr auto auto; grid-template-areas:"name name name" "input add sub"; }
+    .ctrl-name{ grid-area:name; margin-bottom:6px; }
+  }
 </style>
 </head>
 <body>
@@ -262,5 +340,42 @@
     </div>
 
   </main>
+
+  <!-- ===== ADMIN LOGIN GATE (opens on Ctrl+I) ===== -->
+  <div id="admin-gate" class="admin-gate" hidden>
+    <form id="admin-gate-form" class="admin-gate__box" autocomplete="off">
+      <label class="admin-gate__label" for="admin-code">รหัสผู้ดูแล</label>
+      <input id="admin-code" class="admin-gate__input" type="password" inputmode="text"
+             autocomplete="off" spellcheck="false" placeholder="พิมพ์รหัสแล้วกด Enter">
+      <p id="admin-gate-error" class="admin-gate__error" hidden>รหัสไม่ถูกต้อง</p>
+      <div class="admin-gate__actions">
+        <button type="submit" class="btn btn--primary">เข้าสู่ระบบ</button>
+        <button type="button" id="admin-gate-cancel" class="btn">ยกเลิก</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- ===== ADMIN PANEL ===== -->
+  <div id="admin-panel" class="admin-panel" hidden>
+    <div class="admin-panel__inner">
+      <header class="admin-panel__head">
+        <h1 class="admin-panel__title">อันดับทีม</h1>
+        <button type="button" id="admin-logout" class="btn">ออกจากระบบ</button>
+      </header>
+      <p id="admin-status" class="admin-status">กำลังโหลด…</p>
+
+      <section class="panel-card">
+        <h2 class="panel-card__title">กราฟแรงกิ้ง (Ranking)</h2>
+        <div id="chart" class="chart"></div>
+      </section>
+
+      <section class="panel-card">
+        <h2 class="panel-card__title">ปรับคะแนน — ใส่จำนวนแล้วกดเพิ่ม/ลด</h2>
+        <div id="controls"></div>
+      </section>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
 </body>
 </html>
