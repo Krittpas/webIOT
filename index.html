@@ -38,6 +38,8 @@
     --ig-soft: rgba(225,48,108,.20);
     --drive:#4285F4;
     --drive-soft: rgba(66,133,244,.20);
+    --staff:#FFB347;
+    --staff-soft: rgba(255,179,71,.20);
   }
 
   *{ box-sizing:border-box; }
@@ -120,6 +122,10 @@
   .card--drive .card-icon{ background:var(--drive-soft); color:var(--drive); }
   .card--drive:hover, .card--drive:focus-visible{ border-color:rgba(66,133,244,.45); box-shadow:0 16px 34px -16px var(--drive-soft); }
   .card--drive .card-eyebrow{ color:var(--drive); }
+  .card--staff{ animation-delay:.36s; }
+  .card--staff .card-icon{ background:var(--staff-soft); color:var(--staff); }
+  .card--staff:hover, .card--staff:focus-visible{ border-color:rgba(255,179,71,.45); box-shadow:0 16px 34px -16px var(--staff-soft); }
+  .card--staff .card-eyebrow{ color:var(--staff); }
   .card-icon svg{ width:22px; height:22px; overflow:visible; }
 
   .pulse-dot{ fill:var(--coral); }
@@ -266,6 +272,27 @@
     <p class="subtitle">เลือกช่องทางที่ต้องการเข้าร่วม</p>
 
     <div class="cards">
+      <a class="card card--staff" href="staff.html">
+        <span class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="9" cy="7" r="3" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M3 19c0-3.314 2.686-6 6-6s6 2.686 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="17" cy="8" r="2.5" stroke="currentColor" stroke-width="1.4"/>
+            <path d="M21 19c0-2.761-1.791-5-4-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="card-body">
+          <span class="card-eyebrow">ทีมสตาฟ</span>
+          <span class="card-title">พี่สตาฟทั้งหมด</span>
+          <span class="card-desc">ข้อมูลและ IG ของพี่สตาฟ 40 คน</span>
+        </span>
+        <span class="card-arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </a>
+
       <a class="card card--drive"
          href="https://drive.google.com/file/d/1aG0v6yfW4zSAZ6MClzDyGfxNpMYRd3bV/view?usp=sharing"
          target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">
