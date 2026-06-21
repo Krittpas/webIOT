@@ -12,8 +12,8 @@ const TEAMS = [
     color: "#FF4D4D",
     colorSoft: "rgba(255,77,77,.18)",
     members: [
-      /* 1  */ { name: "พี่รถเก๋ง",  ig: "" },
-      /* 2  */ { name: "พี่แซนด้า", ig: "" },
+      /* 1  */ { name: "พี่รถเก๋ง",  ig: "ukritttttt" },
+      /* 2  */ { name: "พี่แซนด้า", ig: "surrrsn_" },
       /* 3  */ { name: "พี่อาร์ม",  ig: "" },
       /* 4  */ { name: "พี่เอย",    ig: "" },
       /* 5  */ { name: "พี่น้ำเพชร",ig: "" },
