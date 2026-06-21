@@ -38,6 +38,7 @@ const logoutBtn  = document.getElementById("admin-logout");
 const statusEl   = document.getElementById("admin-status");
 const chartEl    = document.getElementById("chart");
 const controlsEl = document.getElementById("controls");
+const adminFab   = document.getElementById("admin-fab");
 
 let refreshTimer = null;
 let teams = [];
@@ -173,17 +174,20 @@ async function openPanel() {
 function closePanel() {
   panel.hidden = true;
   clearInterval(refreshTimer);
+  if (adminFab) adminFab.hidden = false;
 }
 
 function openGate() {
   gateError.hidden = true;
   codeInput.value = "";
   gate.hidden = false;
+  if (adminFab) adminFab.hidden = true;
   codeInput.focus();
 }
 
 function closeGate() {
   gate.hidden = true;
+  if (adminFab && panel.hidden) adminFab.hidden = false;
 }
 
 /* ---------- 6) Wiring ---------- */
@@ -198,8 +202,8 @@ document.addEventListener("keydown", (e) => {
 
 gateForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  const code = codeInput.value.trim();
-  if (ADMIN_CODES.includes(code)) {
+  const code = codeInput.value.trim().toLowerCase();
+  if (ADMIN_CODES.map(c => c.toLowerCase()).includes(code)) {
     closeGate();
     openPanel();
   } else {
@@ -209,4 +213,5 @@ gateForm.addEventListener("submit", (e) => {
 });
 
 gateCancel.addEventListener("click", closeGate);
+adminFab.addEventListener("click", openGate);
 logoutBtn.addEventListener("click", closePanel);

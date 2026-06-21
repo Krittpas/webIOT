@@ -167,6 +167,20 @@
   .btn--sub{ background:var(--coral-soft); color:var(--coral); border-color:rgba(255,122,89,.4); }
   .btn:focus-visible{ outline:2px solid var(--paper); outline-offset:2px; }
 
+  /* Floating admin button — red circle with an X */
+  .admin-fab{
+    position:fixed; right:18px; bottom:18px; z-index:30;
+    width:54px; height:54px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background:#FF4D4D; border:none; cursor:pointer;
+    box-shadow:0 8px 22px -6px rgba(255,77,77,.75);
+    transition:transform .2s var(--ease), box-shadow .2s var(--ease);
+  }
+  .admin-fab:hover{ transform:scale(1.06); box-shadow:0 12px 28px -8px rgba(255,77,77,.85); }
+  .admin-fab:active{ transform:scale(.94); }
+  .admin-fab:focus-visible{ outline:2px solid var(--paper); outline-offset:3px; }
+  .admin-fab svg{ width:24px; height:24px; }
+
   /* Login gate */
   .admin-gate{
     position:fixed; inset:0; z-index:50; display:flex; align-items:center; justify-content:center;
@@ -340,6 +354,13 @@
     </div>
 
   </main>
+
+  <!-- Floating admin button (for phones — Ctrl+I works on desktop) -->
+  <button type="button" id="admin-fab" class="admin-fab" aria-label="เข้าสู่ระบบผู้ดูแล">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M7 7l10 10M17 7L7 17" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
+    </svg>
+  </button>
 
   <!-- ===== ADMIN LOGIN GATE (opens on Ctrl+I) ===== -->
   <div id="admin-gate" class="admin-gate" hidden>
