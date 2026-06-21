@@ -64,18 +64,20 @@ const TEAMS = [
     colorSoft: "rgba(181,123,255,.18)",
     members: [
       /* 31 */ { name: "พี่ปุณ",    ig: "the_ppoon" },
-      /* 32 */ { name: "พี่คลีน",   ig: "" },
+      /* 32 */ { name: "พี่คลีน",   ig: "kleanie_" },
       /* 33 */ { name: "พี่ต๊อด",   ig: "" },
       /* 34 */ { name: "พี่ทิม",    ig: "" },
       /* 35 */ { name: "พี่อชิ",       ig: "Poriboot_." },
       /* 36 */ { name: "พี่กาน",    ig: "paegarn" },
       /* 37 */ { name: "พี่ไอซ์",   ig: "dek_iceboyy" },
       /* 38 */ { name: "พี่เบนเทน", ig: "thxraw_t" },
-      /* 39 */ { name: "พี่จีน",    ig: "" },
-      /* 40 */ { name: "พี่ตอง",    ig: "" },
+      /* 39 */ { name: "พี่จีน",    ig: "wrtjxnn" },
+      /* 40 */ { name: "พี่ตอง",    ig: "tx0nqq_" },
     ],
   },
 ];
+
+const PHOTO_FORMATS = ["png", "jpg", "jpeg"];
 
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, c =>
@@ -84,6 +86,31 @@ function escapeHtml(s) {
 
 function placeholderChar(name) {
   return name.replace(/^พี่/, "")[0] || name[0];
+}
+
+function attachPhoto(wrap, num, teamColor, memberName) {
+  const formats = [...PHOTO_FORMATS];
+  const img = document.createElement("img");
+  img.className = "staff-photo";
+  img.alt = memberName;
+
+  function showPlaceholder() {
+    img.remove();
+    const ph = document.createElement("span");
+    ph.className = "photo-placeholder";
+    ph.style.color = teamColor;
+    ph.textContent = placeholderChar(memberName);
+    wrap.appendChild(ph);
+  }
+
+  function tryNext() {
+    if (formats.length === 0) { showPlaceholder(); return; }
+    img.src = `photos/${num}.${formats.shift()}`;
+  }
+
+  img.addEventListener("error", tryNext);
+  wrap.appendChild(img);
+  tryNext();
 }
 
 (function render() {
@@ -109,29 +136,24 @@ function placeholderChar(name) {
     team.members.forEach(member => {
       num++;
 
-      const card = document.createElement("div");
+      const card = member.ig
+        ? document.createElement("a")
+        : document.createElement("div");
       card.className = "staff-card";
+      if (member.ig) {
+        card.href = `https://www.instagram.com/${member.ig}`;
+        card.target = "_blank";
+        card.rel = "noopener noreferrer";
+        card.setAttribute("referrerpolicy", "no-referrer");
+        card.setAttribute("aria-label", `IG ของ ${member.name}: @${member.ig}`);
+      }
 
       const wrap = document.createElement("div");
       wrap.className = "photo-wrap";
-      wrap.style.setProperty("--tc", team.color);
-      wrap.style.setProperty("--ts", team.colorSoft);
       wrap.style.borderColor = team.color;
       wrap.style.background = team.colorSoft;
 
-      const img = document.createElement("img");
-      img.className = "staff-photo";
-      img.src = `photos/${num}.png`;
-      img.alt = member.name;
-      img.addEventListener("error", () => {
-        img.remove();
-        const ph = document.createElement("span");
-        ph.className = "photo-placeholder";
-        ph.style.color = team.color;
-        ph.textContent = placeholderChar(member.name);
-        wrap.appendChild(ph);
-      });
-      wrap.appendChild(img);
+      attachPhoto(wrap, num, team.color, member.name);
 
       const nameEl = document.createElement("span");
       nameEl.className = "staff-name";
@@ -139,7 +161,7 @@ function placeholderChar(name) {
 
       const igEl = document.createElement("span");
       igEl.className = "staff-ig";
-      igEl.textContent = "IG : " + (member.ig || "—");
+      igEl.textContent = member.ig ? `@${member.ig}` : "—";
 
       card.appendChild(wrap);
       card.appendChild(nameEl);
