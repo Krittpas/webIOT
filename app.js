@@ -115,7 +115,7 @@ function renderControls() {
     row.className = "ctrl-row";
     row.innerHTML =
       `<span class="ctrl-name">${escapeHtml(t.name)}</span>` +
-      `<input class="ctrl__input" type="number" min="1" step="1" value="1" aria-label="จำนวนคะแนนของ ${escapeHtml(t.name)}">` +
+      `<input class="ctrl__input" type="number" min="1" step="10" value="10" aria-label="จำนวนคะแนนของ ${escapeHtml(t.name)}">` +
       `<button type="button" class="btn btn--add">เพิ่ม</button>` +
       `<button type="button" class="btn btn--sub">ลด</button>`;
     const input = row.querySelector(".ctrl__input");
